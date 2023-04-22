@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "alternativerecipebutton.MixinAlternativeButtonWidget",
+    "bounce.MixinRecipeBook",
     "centeredinventory.MixinRecipeBookWidget",
     "circularscrolling.MixinRecipeBookResults",
     "mousewheelscrolling.AccessorRecipeBookWidget",
@@ -14,13 +15,10 @@
     "recipebook.MixinRecipeBookWidget",
     "recipebook.MixinScreen",
     "ungrouprecipes.MixinClientRecipeBook",
+    "unlockallrecipes.MixinPlayerManager",
     "unlockallrecipes.MixinRecipeToast"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "bounce.MixinRecipeBook",
-    "unlockallrecipes.MixinPlayerManager"
-  ]
+  }
 }
