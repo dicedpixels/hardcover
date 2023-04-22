@@ -9,7 +9,6 @@
     "marshmallow"
   ],
   "contact": {
-    "homepage": "https://github.com/dicedpixels",
     "sources": "https://github.com/dicedpixels/hardcover"
   },
   "license": "MIT",
@@ -33,7 +32,6 @@
   "depends": {
     "fabricloader": ">=0.14.19",
     "minecraft": "~1.19.4",
-    "fabric": "*",
     "java": ">=17"
   }
 }
