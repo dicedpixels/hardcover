@@ -24,19 +24,19 @@ abstract class MixinRecipeBookResults {
 
 	@ModifyExpressionValue(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookResults;currentPage:I", ordinal = 0))
 	private int hardcover$incrementCurrentPage(int original) {
-		return Hardcover.CONFIG.circularScrolling ? ((this.currentPage == this.pageCount - 1) ? -1 : this.currentPage) : original;
+		return Hardcover.CONFIG.circularScrolling ? ((currentPage == pageCount - 1) ? -1 : currentPage) : original;
 	}
 
 	@ModifyExpressionValue(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookResults;currentPage:I", ordinal = 2))
 	private int hardcover$decrementCurrentPage(int original) {
-		return Hardcover.CONFIG.circularScrolling ? ((this.currentPage == 0) ? this.pageCount : this.currentPage) : original;
+		return Hardcover.CONFIG.circularScrolling ? ((currentPage == 0) ? pageCount : currentPage) : original;
 	}
 
 	@Inject(method = "hideShowPageButtons", at = @At("HEAD"), cancellable = true)
 	private void hideShowPageButtons(CallbackInfo ci) {
 		if (Hardcover.CONFIG.circularScrolling) {
-			this.nextPageButton.visible = this.pageCount > 1;
-			this.prevPageButton.visible = this.pageCount > 1;
+			nextPageButton.visible = pageCount > 1;
+			prevPageButton.visible = pageCount > 1;
 			ci.cancel();
 		}
 	}

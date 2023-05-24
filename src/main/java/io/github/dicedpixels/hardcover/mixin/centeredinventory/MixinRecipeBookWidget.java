@@ -20,7 +20,7 @@ abstract class MixinRecipeBookWidget {
 
 	@Inject(method = "reset", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookWidget;leftOffset:I"))
 	private void hardcover$modifyLeftOffset(CallbackInfo ci) {
-		this.leftOffset = Hardcover.CONFIG.centeredInventory ? this.narrow ? 0 : 166 : this.narrow ? 0 : 86;
+		leftOffset = Hardcover.CONFIG.centeredInventory ? narrow ? 0 : 166 : narrow ? 0 : 86;
 	}
 
 	@ModifyReturnValue(method = "findLeftEdge", at = @At("RETURN"))
@@ -34,6 +34,6 @@ abstract class MixinRecipeBookWidget {
 
 	@ModifyReturnValue(method = "isWide", at = @At(value = "RETURN"))
 	private boolean hardcover$modifyIsWide(boolean original) {
-		return Hardcover.CONFIG.centeredInventory && (this.leftOffset == 166 || this.leftOffset == 82) || original;
+		return Hardcover.CONFIG.centeredInventory && (leftOffset == 166 || leftOffset == 82) || original;
 	}
 }

@@ -16,26 +16,26 @@ abstract class MixinRecipeBookResults implements HardcoverMouseScrolled {
 
 	@Override
 	public void mouseScrolled(double mouseX, double mouseY, double amount) {
-		if (this.pageCount != 0) {
+		if (pageCount != 0) {
 			if (amount == 1.0) {
 				if (Hardcover.CONFIG.circularScrolling) {
-					this.currentPage = (this.currentPage == this.pageCount - 1) ? 0 : this.currentPage + 1;
+					currentPage = (currentPage == pageCount - 1) ? 0 : currentPage + 1;
 				} else {
-					if (this.currentPage != this.pageCount - 1) {
+					if (currentPage != pageCount - 1) {
 
-						this.currentPage = this.currentPage + 1;
+						currentPage = currentPage + 1;
 					}
 				}
 			} else if (amount == -1.0) {
 				if (Hardcover.CONFIG.circularScrolling) {
-					this.currentPage = (this.currentPage == 0) ? this.pageCount - 1 : this.currentPage - 1;
+					currentPage = (currentPage == 0) ? pageCount - 1 : currentPage - 1;
 				} else {
-					if (this.currentPage >= 1) {
-						this.currentPage = this.currentPage - 1;
+					if (currentPage >= 1) {
+						currentPage = currentPage - 1;
 					}
 				}
 			}
-			this.refreshResultButtons();
+			refreshResultButtons();
 		}
 	}
 

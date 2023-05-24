@@ -17,7 +17,7 @@ abstract class MixinRecipeBookWidget {
 	private void hardcover$toggleRecipeBookOff(int parentWidth, int parentHeight, MinecraftClient client, boolean narrow, AbstractRecipeScreenHandler<?> craftingScreenHandler, CallbackInfo ci) {
 		if (!Hardcover.CONFIG.recipeBook) {
 			if (craftingScreenHandler != null) {
-				this.setOpen(false);
+				setOpen(false);
 			}
 		}
 	}
