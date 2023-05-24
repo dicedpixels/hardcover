@@ -1,29 +1,14 @@
 package io.github.dicedpixels.hardcover.mixin.alternativerecipebutton;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.dicedpixels.hardcover.Hardcover;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget.InputSlot;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -33,6 +18,21 @@ import net.minecraft.recipe.RecipeGridAligner;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toMap;
 
 @Mixin(AlternativeButtonWidget.class)
 abstract class MixinAlternativeButtonWidget extends ClickableWidget implements RecipeGridAligner<Ingredient> {
@@ -80,9 +80,8 @@ abstract class MixinAlternativeButtonWidget extends ClickableWidget implements R
 	}
 
 	@Inject(method = "renderButton", at = @At("HEAD"), cancellable = true)
-	private void hardcover$renderCustomAlternativeButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	private void hardcover$renderCustomAlternativeButton(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (Hardcover.CONFIG.alternativeRecipeButton && client != null && client.world != null) {
-			RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
 			int v = 0;
 			int u = 0;
 			if (!this.craftable) {
@@ -94,11 +93,11 @@ abstract class MixinAlternativeButtonWidget extends ClickableWidget implements R
 			if (Hardcover.CONFIG.darkMode) {
 				v += 52;
 			}
-			drawTexture(matrices, this.getX(), this.getY(), u, v, this.width, this.height);
-			matrices.push();
-			matrices.translate(0, 0, -35);
-			client.getItemRenderer().renderInGuiWithOverrides(matrices, this.recipe.getOutput(client.world.getRegistryManager()), this.getX() + 4, this.getY() + 4);
-			matrices.pop();
+			context.drawTexture(BACKGROUND_TEXTURE, this.getX(), this.getY(), u, v, this.width, this.height);
+			context.getMatrices().push();
+			context.getMatrices().translate(0, 0, -35);
+			context.drawItem(this.recipe.getOutput(client.world.getRegistryManager()), this.getX() + 4, this.getY() + 4);
+			context.getMatrices().pop();
 			ci.cancel();
 		}
 	}

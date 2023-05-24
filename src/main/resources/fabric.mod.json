@@ -31,7 +31,7 @@
   "accessWidener": "hardcover.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.19",
-    "minecraft": "~1.19.4",
+    "minecraft": "~1.20-beta.5",
     "java": ">=17"
   }
 }
