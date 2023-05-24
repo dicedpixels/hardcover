@@ -13,7 +13,6 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget;
 
 @Mixin(Screen.class)
 abstract class MixinScreen {
-	@SuppressWarnings("CancellableInjectionUsage")
 	@Inject(method = "addDrawableChild", at = @At("HEAD"), cancellable = true)
 	private <T extends Element & Drawable> void hardcover$hideRecipeBookButton(T drawableElement, CallbackInfoReturnable<T> cir) {
 		if (!Hardcover.CONFIG.recipeBook && drawableElement instanceof TexturedButtonWidget) {
