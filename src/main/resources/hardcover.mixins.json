@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "package": "xyz.dicedpixels.hardcover.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "bounce.RecipeBookMixin",
+        "unlockallrecipes.PlayerManagerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

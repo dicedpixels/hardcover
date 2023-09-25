@@ -1,0 +1,48 @@
+{
+    "schemaVersion": 1,
+    "id": "hardcover",
+    "version": "${version}",
+    "name": "Hardcover",
+    "description": "Adds a few vanilla-adjacent QOL tweaks to the Recipe Book.",
+    "authors": [
+        {
+            "name": "dicedpixels"
+        },
+        {
+            "name": "marshmallow",
+            "contact": {
+                "sources": "https://github.com/mrshmllow/BetterRecipeBook/"
+            }
+        }
+    ],
+    "contact": {
+        "sources": "https://github.com/dicedpixels/hardcover/"
+    },
+    "license": "MIT",
+    "icon": "assets/hardcover/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "xyz.dicedpixels.hardcover.Initializer"
+        ],
+        "client": [
+            "xyz.dicedpixels.hardcover.client.ClientInitializer"
+        ],
+        "modmenu": [
+            "xyz.dicedpixels.hardcover.client.compat.ModMenu"
+        ]
+    },
+    "mixins": [
+        "hardcover.mixins.json",
+        {
+            "config": "hardcover.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=0.14.22",
+        "minecraft": "~1.20.2-beta.2",
+        "java": ">=17",
+        "fabric-api": "*"
+    }
+}

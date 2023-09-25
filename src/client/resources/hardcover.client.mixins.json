@@ -1,0 +1,20 @@
+{
+    "required": true,
+    "package": "xyz.dicedpixels.hardcover.client.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "client": [
+        "alternativerecipebutton.AlternativeButtonWidgetMixin",
+        "centeredinventory.RecipeBookWidgetMixin",
+        "circularscrolling.RecipeBookResultsMixin",
+        "mousewheelscrolling.ParentElementMixin",
+        "mousewheelscrolling.RecipeBookResultsMixin",
+        "mousewheelscrolling.RecipeBookWidgetAccessor",
+        "recipebook.RecipeBookWidgetMixin",
+        "recipebook.TexturedButtonWidgetAccessor",
+        "ungrouprecipes.ClientRecipeBookMixin",
+        "unlockallrecipes.RecipeToastMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
