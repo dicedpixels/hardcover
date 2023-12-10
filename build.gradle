@@ -1,0 +1,72 @@
+plugins {
+    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'com.diffplug.spotless' version '6.23.3'
+}
+
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url 'https://repo.repsy.io/mvn/dicedpixels/fabric/'}
+    maven { url 'https://maven.terraformersmc.com/releases/' }
+}
+
+afterEvaluate {
+    loom.runs.configureEach {
+        vmArg "-javaagent:${configurations.compileClasspath.find { it.name.contains("sponge-mixin") }}"
+        vmArg "-XX:+AllowEnhancedClassRedefinition"
+    }
+}
+loom {
+    accessWidenerPath = file("src/main/resources/${archives_base_name}.accesswidener")
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+
+    modImplementation "xyz.dicedpixels:pixel:${project.pixel_version}"
+    include "xyz.dicedpixels:pixel:${project.pixel_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    from 'LICENSE'
+}
+
+spotless {
+    java {
+        toggleOffOn()
+        palantirJavaFormat()
+        removeUnusedImports()
+        importOrder('java', 'javax', '', 'net.minecraft', 'com.mojang', 'net.fabricmc', 'xyz.dicedpixels')
+        formatAnnotations()
+    }
+    json {
+        target 'src/**/*.json'
+        gson()
+    }
+}

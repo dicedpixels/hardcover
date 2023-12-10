@@ -1,0 +1,12 @@
+root = true
+
+[*.properties]
+indent_style = space
+indent_size = 4
+ij_properties_align_group_field_declarations = true
+ij_properties_keep_blank_lines = true
+ij_properties_spaces_around_key_value_delimiter = true
+
+[.editorconfig]
+indent_style = space
+indent_size = 4

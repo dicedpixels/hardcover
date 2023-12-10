@@ -1,0 +1,27 @@
+{
+    "required": true,
+    "package": "xyz.dicedpixels.hardcover.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "bounce.RecipeBookMixin",
+        "unlockallrecipes.PlayerManagerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "DrawContextAccessor",
+        "RecipeAlternativesWidgetAccessor",
+        "alternativerecipebutton.AlternativeButtonWidgetMixin",
+        "alternativerecipebutton.RecipeBookGhostSlotsMixin",
+        "centeredinventory.RecipeBookWidgetMixin",
+        "circularscrolling.RecipeBookResultsMixin",
+        "mousewheelscrolling.ParentElementMixin",
+        "mousewheelscrolling.RecipeBookResultsMixin",
+        "mousewheelscrolling.RecipeBookWidgetAccessor",
+        "recipebook.RecipeBookWidgetMixin",
+        "recipebook.TexturedButtonWidgetAccessor",
+        "ungrouprecipes.ClientRecipeBookMixin",
+        "unlockallrecipes.RecipeToastMixin"
+    ]
+}
