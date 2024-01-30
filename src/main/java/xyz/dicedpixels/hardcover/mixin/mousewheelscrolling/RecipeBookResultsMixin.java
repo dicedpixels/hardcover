@@ -30,6 +30,7 @@ abstract class RecipeBookResultsMixin implements IMouseScrolled {
         if (alternatesWidget.isVisible()) {
             alternatesWidget.setVisible(false);
         }
+
         if (pageCount != 0) {
             if (verticalAmount == 1.0) {
                 if (Hardcover.configuration().circularScrolling) {
@@ -48,6 +49,7 @@ abstract class RecipeBookResultsMixin implements IMouseScrolled {
                     }
                 }
             }
+
             refreshResultButtons();
         }
     }

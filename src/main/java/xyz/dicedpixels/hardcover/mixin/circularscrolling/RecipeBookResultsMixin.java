@@ -55,6 +55,7 @@ abstract class RecipeBookResultsMixin {
         if (Hardcover.configuration().circularScrolling) {
             nextPageButton.visible = pageCount > 1;
             prevPageButton.visible = pageCount > 1;
+
             callbackInfo.cancel();
         }
     }

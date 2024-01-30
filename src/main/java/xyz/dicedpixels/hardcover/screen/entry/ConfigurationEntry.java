@@ -19,21 +19,25 @@ public class ConfigurationEntry extends AbstractEntry {
 
     private ConfigurationEntry(List<ClickableWidget> widgets) {
         layout = DirectionalLayoutWidget.horizontal().spacing(5);
+
         widgets.forEach(widget -> {
             children.add(widget);
             layout.add(widget);
         });
+
         layout.refreshPositions();
     }
 
     public static ConfigurationEntry of(ClickableWidget first, ClickableWidget second) {
         first.setDimensions(ButtonWidget.DEFAULT_WIDTH, 20);
         second.setDimensions(ButtonWidget.DEFAULT_WIDTH, 20);
+
         return new ConfigurationEntry(List.of(first, second));
     }
 
     public static ConfigurationEntry of(ClickableWidget widget) {
         widget.setDimensions((ButtonWidget.DEFAULT_WIDTH * 2) + 5, 20);
+
         return new ConfigurationEntry(List.of(widget));
     }
 

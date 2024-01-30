@@ -2,7 +2,7 @@ package xyz.dicedpixels.hardcover.config;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Configuration {
+public class Config {
     @SerializedName("alternative-recipe-button")
     public boolean alternativeRecipeButton;
 

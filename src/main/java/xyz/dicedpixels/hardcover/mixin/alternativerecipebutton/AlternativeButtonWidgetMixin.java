@@ -51,6 +51,7 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget implements R
     private void hardcover$renderAlternativeButton(
             DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
         var client = ((RecipeAlternativesWidgetAccessor) parent).hardcover$client();
+
         if (Hardcover.configuration().alternativeRecipeButton && client != null && client.world != null) {
             if (isHovered()) {
                 ((DrawContextAccessor) context)
@@ -62,14 +63,17 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget implements R
                                 mouseY,
                                 HoveredTooltipPositioner.INSTANCE);
             }
+
             var texture = craftable
                     ? (isSelected() ? Textures.WIDGET_SELECTED.get() : Textures.WIDGET.get())
                     : (isSelected() ? Textures.WIDGET_DISABLED_SELECTED.get() : Textures.WIDGET_DISABLED.get());
+
             context.drawGuiTexture(texture, getX(), getY(), width, height);
             context.getMatrices().push();
             context.getMatrices().translate(0, 0, -35);
             context.drawItem(recipe.value().getResult(client.world.getRegistryManager()), getX() + 4, getY() + 4);
             context.getMatrices().pop();
+
             callbackInfo.cancel();
         }
     }

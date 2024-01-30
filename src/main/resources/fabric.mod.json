@@ -26,8 +26,8 @@
     ],
     "accessWidener": "hardcover.accesswidener",
     "depends": {
-        "fabricloader": ">=0.15.1",
-        "minecraft": "~1.20.3",
+        "fabricloader": ">=0.15.6",
+        "minecraft": "~1.20.4",
         "java": ">=17",
         "fabric-api": "*"
     }

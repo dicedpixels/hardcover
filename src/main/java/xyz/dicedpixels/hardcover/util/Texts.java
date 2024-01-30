@@ -15,16 +15,18 @@ public class Texts {
     public static final Pair CIRCULAR_SCROLLING = of("circular-scrolling");
     public static final Pair CENTERED_INVENTORY = of("centered-inventory");
     public static final Pair MOUSE_WHEEL_SCROLLING = of("mouse-wheel-scrolling");
-    public static final Text DONE = Text.translatable("hardcover.done");
-    public static final Text RESET = Text.translatable("hardcover.reset");
+    public static final Text DONE = Text.translatable("hardcover.config.done");
+    public static final Text RESET = Text.translatable("hardcover.config.reset");
+    public static final Text ON = Text.translatable("hardcover.config.on").formatted(Formatting.GREEN);
+    public static final Text OFF = Text.translatable("hardcover.config.off").formatted(Formatting.RED);
     public static final Text EXPERIMENTAL_TOOLTIP = ScreenTexts.LINE_BREAK
             .copy()
-            .append(Text.translatable("hardcover.experimental-tooltip").formatted(Formatting.RED));
+            .append(Text.translatable("hardcover.config.experimental-tooltip").formatted(Formatting.RED));
 
     public static Pair of(String key) {
         return new Pair(
-                Text.translatable(String.format("%s.%s", "hardcover", key)),
-                Text.translatable(String.format("%s.tooltip.%s", "hardcover", key)));
+                Text.translatable(String.format("%s.%s", "hardcover.config", key)),
+                Text.translatable(String.format("%s.tooltip.%s", "hardcover.config", key)));
     }
 
     public record Pair(MutableText display, MutableText tooltip) {}

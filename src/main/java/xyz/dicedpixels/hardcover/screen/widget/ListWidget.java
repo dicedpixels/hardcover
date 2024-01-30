@@ -24,9 +24,4 @@ public class ListWidget extends AbstractListWidget<AbstractEntry> {
     public int getRowWidth() {
         return width;
     }
-
-    @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 45;
-    }
 }

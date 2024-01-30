@@ -25,6 +25,7 @@ public interface ParentElementMixin {
             if (Hardcover.configuration().mouseWheelScrolling) {
                 var widget =
                         ((RecipeBookWidgetAccessor) recipeBookProvider.getRecipeBookWidget()).hardcover$recipesArea();
+
                 ((IMouseScrolled) widget).hardcover$mouseScrolled(verticalAmount);
             }
         }

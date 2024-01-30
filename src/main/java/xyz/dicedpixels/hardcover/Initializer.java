@@ -21,6 +21,7 @@ public class Initializer implements ModInitializer {
                         return ((TexturedButtonWidgetAccessor) element).hardcover$textures()
                                 == RecipeBookWidget.BUTTON_TEXTURES;
                     }
+
                     return false;
                 });
         });

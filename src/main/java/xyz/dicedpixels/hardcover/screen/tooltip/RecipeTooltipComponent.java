@@ -32,10 +32,12 @@ public class RecipeTooltipComponent implements TooltipComponent {
     @Override
     public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
         context.drawGuiTexture(Textures.CRAFTING_GRID.get(), x, y, 0, 56, 56);
+
         for (int indexY = 0; indexY < 3; ++indexY) {
             for (int indexX = 0; indexX < 3; ++indexX) {
                 int posX = x + indexX * 18;
                 int posY = y + indexY * 18;
+
                 drawSlot(posX, posY, indexX, indexY, context);
             }
         }
