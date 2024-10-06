@@ -10,4 +10,13 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 interface AccessorRecipeBookWidget {
 	@Accessor
 	RecipeBookResults getRecipesArea();
+
+	@Accessor
+	int getLeftOffset();
+
+	@Accessor
+	int getParentWidth();
+
+	@Accessor
+	int getParentHeight();
 }
