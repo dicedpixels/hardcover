@@ -1,0 +1,6 @@
+accessWidener v2 named
+
+accessible class net/minecraft/client/gui/screen/recipebook/RecipeAlternativesWidget$AlternativeButtonWidget
+accessible class net/minecraft/client/gui/screen/recipebook/RecipeAlternativesWidget$AlternativeButtonWidget$InputSlot
+extendable method net/minecraft/client/gui/widget/CyclingButtonWidget <init> (IIIILnet/minecraft/text/Text;Lnet/minecraft/text/Text;ILjava/lang/Object;Lnet/minecraft/client/gui/widget/CyclingButtonWidget$Values;Ljava/util/function/Function;Ljava/util/function/Function;Lnet/minecraft/client/gui/widget/CyclingButtonWidget$UpdateCallback;Lnet/minecraft/client/option/SimpleOption$TooltipFactory;Z)V
+accessible field net/minecraft/client/gui/widget/CyclingButtonWidget BOOLEAN_VALUES Ljava/util/List;
