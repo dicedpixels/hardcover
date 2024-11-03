@@ -58,7 +58,7 @@ public class ConfigScreen extends Screen {
 
         adder.add(new TextWidget(title, textRenderer));
 
-        buttonsLayout.add(ButtonWidget.builder(Translations.RESET, button -> {}).width(200 / 4).build());
+        buttonsLayout.add(ButtonWidget.builder(Translations.RESET, button -> BUTTONS.forEach(OnOffCyclingButtonWidget::resetConfigValue)).width(200 / 4).build());
         buttonsLayout.add(ButtonWidget.builder(Translations.DONE, button -> close()).width((200 / 4 * 3) - 5).build());
 
         adder.add(buttonsLayout);
@@ -140,6 +140,11 @@ public class ConfigScreen extends Screen {
 
         public CyclingButtonWidget<Boolean> getButton() {
             return button;
+        }
+
+        public void resetConfigValue() {
+            button.setValue(defaultValue);
+            setConfigValue(property, defaultValue);
         }
 
         public void update() {
