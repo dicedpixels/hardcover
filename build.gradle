@@ -2,7 +2,7 @@ plugins {
     id "fabric-loom" version "1.8-SNAPSHOT"
 }
 
-version = project.mod_version
+version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
 base {
@@ -16,7 +16,6 @@ repositories {
 
     maven {
         url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-
     }
 }
 
@@ -45,7 +44,6 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-    withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
