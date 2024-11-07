@@ -27,11 +27,6 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.ConfigE
         return width;
     }
 
-    public void reset() {
-        clearEntries();
-        setScrollAmount(0);
-    }
-
     public static class ConfigEntry extends Entry<ConfigEntry> {
         private final List<ClickableWidget> children = new ObjectArrayList<>();
         private final DirectionalLayoutWidget layout;

@@ -12,11 +12,11 @@ import xyz.dicedpixels.hardcover.Config;
 abstract class RecipeGroupButtonWidgetMixin {
     @ModifyExpressionValue(method = "renderWidget", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 3))
     private float hardcover$toggleBounceEnd(float original) {
-        return !Config.instance().bounce ? 1000.00f : original;
+        return Config.instance().bounce ? original : 1000.00f;
     }
 
     @ModifyExpressionValue(method = "renderWidget", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 0))
     private float hardcover$toggleBounceStart(float original) {
-        return !Config.instance().bounce ? 1000.00f : original;
+        return Config.instance().bounce ? original : 1000.00f;
     }
 }

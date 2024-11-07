@@ -11,7 +11,7 @@ import xyz.dicedpixels.hardcover.Config;
 
 @Mixin(RecipeToast.class)
 abstract class RecipeToastMixin {
-    @ModifyReturnValue(method = "draw", at = @At("RETURN"))
+    @ModifyReturnValue(method = "getVisibility", at = @At("RETURN"))
     private Toast.Visibility hardcover$hideRecipeToast(Toast.Visibility original) {
         return Config.instance().unlockAllRecipes ? Toast.Visibility.HIDE : original;
     }

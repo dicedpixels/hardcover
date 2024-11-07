@@ -6,22 +6,22 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget.InputSlot;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.render.RenderLayer;
 
 import xyz.dicedpixels.hardcover.Textures;
 
 public class RecipeTooltipComponent implements TooltipComponent {
     private final List<InputSlot> inputSlots;
-    private final float time;
+    private final int slotIndex;
 
-    public RecipeTooltipComponent(List<InputSlot> inputSlots, float time) {
+    public RecipeTooltipComponent(List<InputSlot> inputSlots, int slotIndex) {
         this.inputSlots = inputSlots;
-        this.time = time;
+        this.slotIndex = slotIndex;
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
-        context.drawGuiTexture(Textures.CRAFTING_GRID.get(), x, y, 0, 56, 56);
+    public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
+        context.drawGuiTexture(RenderLayer::getGuiTextured, Textures.CRAFTING_GRID.get(), x, y, 56, 56, 0xffffffff);
 
         for (var indexY = 0; indexY < 3; ++indexY) {
             for (int indexX = 0; indexX < 3; ++indexX) {
@@ -34,14 +34,14 @@ public class RecipeTooltipComponent implements TooltipComponent {
 
     private void drawSlot(int posX, int posY, int indexX, int indexY, DrawContext context) {
         for (var slot : inputSlots) {
-            if (slot.stacks.length > 0 && slot.x % 3 == indexY && slot.y % 3 == indexX) {
-                context.drawItem(slot.stacks[MathHelper.floor(time / 30.0f) % slot.stacks.length], posX + 2, posY + 2);
+            if (!slot.stacks().isEmpty() && slot.x() % 3 == indexY && slot.y() % 3 == indexX) {
+                context.drawItem(slot.get(slotIndex), posX + 2, posY + 2);
             }
         }
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(TextRenderer textRenderer) {
         return 56 + 2;
     }
 

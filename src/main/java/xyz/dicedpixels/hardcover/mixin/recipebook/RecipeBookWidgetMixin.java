@@ -1,5 +1,6 @@
 package xyz.dicedpixels.hardcover.mixin.recipebook;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,11 +14,15 @@ import net.minecraft.screen.AbstractRecipeScreenHandler;
 import xyz.dicedpixels.hardcover.Config;
 
 @Mixin(RecipeBookWidget.class)
-abstract class RecipeBookWidgetMixin {
+abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
+    @Shadow
+    @Final
+    protected T craftingScreenHandler;
+
     @Inject(method = "initialize", at = @At("TAIL"))
-    private void hardcover$toggleRecipeBookOff(int parentWidth, int parentHeight, MinecraftClient client, boolean narrow, AbstractRecipeScreenHandler<?, ?> craftingScreenHandler, CallbackInfo callbackInfo) {
+    private void hardcover$toggleRecipeBookOff(int parentWidth, int parentHeight, MinecraftClient client, boolean narrow, CallbackInfo callbackInfo) {
         if (!Config.instance().recipeBook) {
-            if (craftingScreenHandler != null) {
+            if (this.craftingScreenHandler != null) {
                 setOpen(false);
             }
         }
