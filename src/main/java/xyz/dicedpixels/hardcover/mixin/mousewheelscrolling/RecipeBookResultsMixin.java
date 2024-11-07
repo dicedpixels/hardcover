@@ -3,12 +3,7 @@ package xyz.dicedpixels.hardcover.mixin.mousewheelscrolling;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
 
@@ -24,30 +19,8 @@ abstract class RecipeBookResultsMixin implements IMouseScrolled {
     @Shadow
     private int currentPage;
 
-    @Unique
-    private int hardcover$parentLeft = 0;
-    @Unique
-
-    private int hardcover$parentTop = 0;
-
     @Shadow
     private int pageCount;
-
-    @Inject(method = "initialize", at = @At("HEAD"))
-    private void hardcover$SetParentBounds(MinecraftClient client, int parentLeft, int parentTop, CallbackInfo ci) {
-        hardcover$parentTop = parentTop;
-        hardcover$parentLeft = parentLeft;
-    }
-
-    @Override
-    public int hardcover$getParentLeft() {
-        return hardcover$parentLeft;
-    }
-
-    @Override
-    public int hardcover$getParentTop() {
-        return hardcover$parentTop;
-    }
 
     @Override
     public void hardcover$mouseScrolled(double verticalAmount) {

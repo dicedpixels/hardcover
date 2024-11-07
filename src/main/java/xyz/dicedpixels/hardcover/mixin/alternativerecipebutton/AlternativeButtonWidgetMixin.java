@@ -30,11 +30,14 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget implements R
     @Shadow
     @Final
     protected List<InputSlot> slots;
+
     @Shadow(aliases = "field_3113")
     RecipeAlternativesWidget parent;
+
     @Shadow
     @Final
     RecipeEntry<?> recipe;
+
     @Shadow
     @Final
     private boolean craftable;
@@ -60,6 +63,7 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget implements R
             context.getMatrices().translate(0, 0, -35);
             context.drawItem(recipe.value().getResult(client.world.getRegistryManager()), getX() + 4, getY() + 4);
             context.getMatrices().pop();
+
             callbackInfo.cancel();
         }
     }
