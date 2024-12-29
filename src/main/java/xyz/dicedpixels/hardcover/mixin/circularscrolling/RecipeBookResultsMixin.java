@@ -16,10 +16,13 @@ import xyz.dicedpixels.hardcover.Config;
 abstract class RecipeBookResultsMixin {
     @Shadow
     private int currentPage;
+
     @Shadow
     private ToggleButtonWidget nextPageButton;
+
     @Shadow
     private int pageCount;
+
     @Shadow
     private ToggleButtonWidget prevPageButton;
 
