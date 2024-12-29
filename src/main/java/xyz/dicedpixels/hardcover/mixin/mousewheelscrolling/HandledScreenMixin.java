@@ -22,6 +22,11 @@ abstract class HandledScreenMixin {
                 var widget = ((RecipeBookScreenAccessor<?>) recipeBookScreen).hardcover$recipeBook();
                 var recipesArea = ((RecipeBookWidgetAccessor) widget).hardcover$recipesArea();
                 var parentLeft = (((RecipeBookWidgetAccessor) widget).hardcover$parentWidth() - 147) / 2 - ((RecipeBookWidgetAccessor) widget).hardcover$leftOffset();
+
+                if (Config.instance().centeredInventory) {
+                    parentLeft = parentLeft - 147 / 2 - 4;
+                }
+
                 var parentTop = (((RecipeBookWidgetAccessor) widget).hardcover$parentHeight() - 166) / 2;
 
                 if (mouseX >= parentLeft && mouseY >= parentTop && mouseX < parentLeft + 147 && mouseY < parentTop + 166) {
