@@ -1,0 +1,19 @@
+package xyz.dicedpixels.hardcover.mixin.quickcraft;
+
+import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.recipe.NetworkRecipeId;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import xyz.dicedpixels.hardcover.util.QuickCraft;
+
+@Mixin(ClientPlayerInteractionManager.class)
+abstract class ClientPlayerInteractionManagerMixin {
+    @Inject(method = "clickRecipe", at = @At("TAIL"))
+    private void hardcover$setRecipeIdOnRequestCraft(int syncId, NetworkRecipeId recipeId, boolean craftAll, CallbackInfo callbackInfo) {
+        QuickCraft.requestedCraftRecipeId = recipeId;
+    }
+}

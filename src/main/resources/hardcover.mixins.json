@@ -1,0 +1,38 @@
+{
+    "required": true,
+    "package": "xyz.dicedpixels.hardcover.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "accessors.DrawContextInvoker",
+        "accessors.KeyBindingAccessor",
+        "accessors.RecipeAlternativesWidgetAccessor",
+        "accessors.RecipeBookScreenAccessor",
+        "accessors.RecipeBookWidgetAccessor",
+        "accessors.TexturedButtonWidgetAccessor",
+        "alternativerecipebooklayout.AbstractCraftingRecipeBookWidgetMixin",
+        "alternativerecipebooklayout.AbstractFurnaceRecipeBookWidgetMixin",
+        "alternativerecipebooklayout.RecipeBookResultsMixin",
+        "alternativerecipebooklayout.RecipeBookWidgetMixin",
+        "alternativerecipebutton.AlternativeButtonWidgetMixin",
+        "alternativerecipebutton.RecipeAlternativesWidgetMixin",
+        "bounce.AnimatedResultButtonMixin",
+        "bounce.RecipeGroupButtonWidgetMixin",
+        "centeredinventory.RecipeBookWidgetMixin",
+        "circularscrolling.RecipeBookResultsMixin",
+        "mousewheelscrolling.HandledScreenMixin",
+        "mousewheelscrolling.RecipeBookResultsMixin",
+        "quickcraft.ClientPlayerInteractionManagerMixin",
+        "quickcraft.ClientPlayNetworkHandlerMixin",
+        "quickcraft.RecipeBookWidgetMixin",
+        "recipebook.RecipeBookWidgetMixin",
+        "ungrouprecipes.ClientRecipeBookMixin",
+        "ungrouprecipes.RecipeBookWidgetMixin",
+        "unlockallrecipes.ClientPlayNetworkHandlerMixin"
+    ],
+    "mixins": [
+        "unlockallrecipes.PlayerManagerMixin"
+    ]
+}
