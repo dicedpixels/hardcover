@@ -19,6 +19,5 @@ public final class Initializer implements ModInitializer {
         ClientTickEvents.START_CLIENT_TICK.register(QuickCraft::scheduleCraft);
         QuickCraft.init();
         ResourcePacks.register();
-
     }
 }
