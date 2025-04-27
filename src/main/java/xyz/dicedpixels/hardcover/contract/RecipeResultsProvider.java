@@ -1,4 +1,4 @@
-package xyz.dicedpixels.hardcover.interfaces;
+package xyz.dicedpixels.hardcover.contract;
 
 import java.util.Map;
 

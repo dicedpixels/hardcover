@@ -8,8 +8,6 @@ import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.Alter
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.RenderLayer;
 
-import xyz.dicedpixels.hardcover.TextureProvider;
-
 public final class RecipeTooltipComponent implements TooltipComponent {
     private static final int TOOLTIP_SIZE = 56;
     private final List<InputSlot> inputSlots;
@@ -26,7 +24,7 @@ public final class RecipeTooltipComponent implements TooltipComponent {
 
     @Override
     public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, TextureProvider.CRAFTING_GRID.getTexture(), x, y, TOOLTIP_SIZE, TOOLTIP_SIZE, 0xffffffff);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, Textures.CRAFTING_GRID, x, y, TOOLTIP_SIZE, TOOLTIP_SIZE, 0xffffffff);
 
         for (var indexY = 0; indexY < 3; ++indexY) {
             for (int indexX = 0; indexX < 3; ++indexX) {

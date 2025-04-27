@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.recipe.NetworkRecipeId;
 
-import xyz.dicedpixels.hardcover.util.QuickCraft;
+import xyz.dicedpixels.hardcover.feature.QuickCraft;
 
 @Mixin(ClientPlayerInteractionManager.class)
 abstract class ClientPlayerInteractionManagerMixin {

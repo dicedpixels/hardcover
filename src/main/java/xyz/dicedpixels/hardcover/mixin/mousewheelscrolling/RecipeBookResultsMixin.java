@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
 
 import xyz.dicedpixels.hardcover.config.Configs;
-import xyz.dicedpixels.hardcover.interfaces.MouseScrollable;
+import xyz.dicedpixels.hardcover.contract.MouseScrollable;
 
 @Mixin(RecipeBookResults.class)
 abstract class RecipeBookResultsMixin implements MouseScrollable {

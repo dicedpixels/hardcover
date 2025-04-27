@@ -23,10 +23,10 @@ import net.minecraft.recipe.NetworkRecipeId;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import xyz.dicedpixels.hardcover.TextureProvider;
 import xyz.dicedpixels.hardcover.config.Configs;
+import xyz.dicedpixels.hardcover.contract.RecipeResultsProvider;
 import xyz.dicedpixels.hardcover.gui.RecipeTooltipComponent;
-import xyz.dicedpixels.hardcover.interfaces.RecipeResultsProvider;
+import xyz.dicedpixels.hardcover.gui.Textures;
 import xyz.dicedpixels.hardcover.mixin.accessors.DrawContextInvoker;
 import xyz.dicedpixels.hardcover.mixin.accessors.RecipeAlternativesWidgetAccessor;
 
@@ -53,9 +53,9 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget {
     @Unique
     private Identifier hardcover$getWidgetTexture() {
         if (craftable) {
-            return TextureProvider.CRAFTING_OVERLAY.getTexture(isSelected());
+            return Textures.CRAFTING_OVERLAY.getTexture(isSelected());
         } else {
-            return TextureProvider.CRAFTING_OVERLAY_DISABLED.getTexture(isSelected());
+            return Textures.CRAFTING_OVERLAY_DISABLED.getTexture(isSelected());
         }
     }
 

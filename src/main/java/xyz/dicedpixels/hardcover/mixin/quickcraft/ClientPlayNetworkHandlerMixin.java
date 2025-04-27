@@ -9,7 +9,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 
 import xyz.dicedpixels.hardcover.config.Configs;
-import xyz.dicedpixels.hardcover.util.QuickCraft;
+import xyz.dicedpixels.hardcover.feature.QuickCraft;
 
 @Mixin(ClientPlayNetworkHandler.class)
 abstract class ClientPlayNetworkHandlerMixin {

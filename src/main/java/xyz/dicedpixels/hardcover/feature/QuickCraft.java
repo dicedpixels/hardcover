@@ -1,4 +1,4 @@
-package xyz.dicedpixels.hardcover.util;
+package xyz.dicedpixels.hardcover.feature;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -13,11 +13,12 @@ import net.minecraft.client.util.InputUtil.Type;
 import net.minecraft.recipe.NetworkRecipeId;
 import net.minecraft.screen.slot.SlotActionType;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
 import xyz.dicedpixels.hardcover.mixin.accessors.KeyBindingAccessor;
 
-public class QuickCraft {
+public final class QuickCraft {
     private static final int CRAFTING_DELAY = 2;
     private static final KeyBinding quickCraftKey = new KeyBinding("hardcover.key.quick_craft", Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "hardcover.key.category");
     public static NetworkRecipeId clickedRecipeId = null;
@@ -42,6 +43,7 @@ public class QuickCraft {
     }
 
     public static void init() {
+        ClientTickEvents.START_CLIENT_TICK.register(QuickCraft::scheduleCraft);
         KeyBindingHelper.registerKeyBinding(quickCraftKey);
     }
 

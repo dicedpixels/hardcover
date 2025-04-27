@@ -10,7 +10,6 @@ import net.minecraft.text.Text;
 
 import xyz.dicedpixels.hardcover.Hardcover;
 import xyz.dicedpixels.hardcover.config.Configs;
-import xyz.dicedpixels.hardcover.util.VersionInfo;
 
 public final class ConfigScreen extends Screen {
     private final ClickableWidget alternativeRecipeBookLayout = Configs.alternativeRecipeBookLayout.createWidget();
@@ -59,7 +58,7 @@ public final class ConfigScreen extends Screen {
         var grid = new GridWidget().setSpacing(5);
         var adder = grid.createAdder(1);
 
-        adder.add(new TextWidget(VersionInfo.getTitleWithVersion(), textRenderer));
+        adder.add(new TextWidget(Hardcover.TITLE, textRenderer));
         adder.add(ButtonWidget.builder(Text.translatable("hardcover.gui.config.back"), button -> close()).width(160).build());
 
         grid.refreshPositions();

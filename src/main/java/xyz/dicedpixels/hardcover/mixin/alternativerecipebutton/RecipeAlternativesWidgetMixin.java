@@ -16,12 +16,12 @@ import net.minecraft.recipe.NetworkRecipeId;
 import net.minecraft.util.context.ContextParameterMap;
 
 import xyz.dicedpixels.hardcover.config.Configs;
-import xyz.dicedpixels.hardcover.interfaces.RecipeResultsProvider;
+import xyz.dicedpixels.hardcover.contract.RecipeResultsProvider;
 
 @Mixin(RecipeAlternativesWidget.class)
 abstract class RecipeAlternativesWidgetMixin implements RecipeResultsProvider {
     @Unique
-    private Map<NetworkRecipeId, ItemStack> recipeResults;
+    private final Map<NetworkRecipeId, ItemStack> recipeResults = new Object2ObjectOpenHashMap<>();
 
     @Override
     public Map<NetworkRecipeId, ItemStack> hardcover$getRecipeResults() {
@@ -31,8 +31,6 @@ abstract class RecipeAlternativesWidgetMixin implements RecipeResultsProvider {
     @Inject(method = "showAlternativesForResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeResultCollection;filter(Lnet/minecraft/client/gui/screen/recipebook/RecipeResultCollection$RecipeFilterMode;)Ljava/util/List;", ordinal = 0))
     private void hardcover$initializeRecipeResults(RecipeResultCollection resultCollection, ContextParameterMap context, boolean filteringCraftable, int buttonX, int buttonY, int areaCenterX, int areaCenterY, float delta, CallbackInfo ci) {
         if (Configs.alternativeRecipeButton.getValue()) {
-            recipeResults = new Object2ObjectOpenHashMap<>();
-
             for (var displayEntry : resultCollection.getAllRecipes()) {
                 recipeResults.put(displayEntry.id(), displayEntry.display().result().getFirst(context));
             }

@@ -13,7 +13,6 @@ import net.minecraft.client.gui.widget.ElementListWidget.Entry;
 import net.minecraft.client.gui.widget.EmptyWidget;
 
 public final class ConfigEntry extends Entry<ConfigEntry> {
-    private static final int DEFAULT_WIDTH = 160;
     private final List<ClickableWidget> childWidgets = new ObjectArrayList<>();
     private final DirectionalLayoutWidget layout = DirectionalLayoutWidget.horizontal().spacing(5);
 
@@ -23,7 +22,7 @@ public final class ConfigEntry extends Entry<ConfigEntry> {
             layout.add(widget);
 
             if (widgets.length == 1) {
-                layout.add(EmptyWidget.ofWidth(DEFAULT_WIDTH));
+                layout.add(EmptyWidget.ofWidth(160));
             }
         }
 
@@ -31,13 +30,13 @@ public final class ConfigEntry extends Entry<ConfigEntry> {
     }
 
     public static ConfigEntry create(ClickableWidget left, ClickableWidget right) {
-        left.setDimensions(DEFAULT_WIDTH, 20);
-        right.setDimensions(DEFAULT_WIDTH, 20);
+        left.setDimensions(160, 20);
+        right.setDimensions(160, 20);
         return new ConfigEntry(left, right);
     }
 
     public static ConfigEntry create(ClickableWidget widget) {
-        widget.setDimensions(DEFAULT_WIDTH, 20);
+        widget.setDimensions(160, 20);
         return new ConfigEntry(widget);
     }
 

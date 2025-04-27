@@ -9,20 +9,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 
-import xyz.dicedpixels.hardcover.TextureProvider;
-import xyz.dicedpixels.hardcover.TextureProvider.SelectableTexture;
 import xyz.dicedpixels.hardcover.config.Configs;
+import xyz.dicedpixels.hardcover.gui.Textures;
+import xyz.dicedpixels.hardcover.gui.Textures.SelectableTexture;
 
 @Mixin(RecipeBookResults.class)
 abstract class RecipeBookResultsMixin {
-
-    @Unique
-    private static final int ITEMS_PER_PAGE = 25;
-
     @Shadow
     private ToggleButtonWidget nextPageButton;
 
@@ -41,7 +36,7 @@ abstract class RecipeBookResultsMixin {
     @ModifyExpressionValue(method = "setResults", at = @At(value = "CONSTANT", args = "doubleValue=20.0"))
     private double hardcover$increaseItemsPerPage(double original) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            return ITEMS_PER_PAGE;
+            return 25;
         }
 
         return original;
@@ -50,7 +45,7 @@ abstract class RecipeBookResultsMixin {
     @ModifyExpressionValue(method = "*", at = @At(value = "CONSTANT", args = "intValue=20"))
     private int hardcover$increaseItemsPerPage(int original) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            return ITEMS_PER_PAGE;
+            return 25;
         }
 
         return original;
@@ -59,7 +54,7 @@ abstract class RecipeBookResultsMixin {
     @Unique
     private ToggleButtonWidget hardcover$initializeToggleButtonWidget(int x, int parentTop, boolean isToggled, SelectableTexture texture) {
         var buttonWidget = new ToggleButtonWidget(x, parentTop + 12, 7, 16, isToggled);
-        buttonWidget.setTextures(new ButtonTextures(texture.getTexture(), texture.getSelectedTexture()));
+        buttonWidget.setTextures(texture.asButtonTextures());
 
         return buttonWidget;
     }
@@ -67,8 +62,8 @@ abstract class RecipeBookResultsMixin {
     @Inject(method = "initialize", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;<init>(IIIIZ)V", ordinal = 0), cancellable = true)
     private void hardcover$replaceNextPreviousButtons(MinecraftClient client, int parentLeft, int parentTop, CallbackInfo callbackInfo) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            nextPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 129, parentTop, false, TextureProvider.PAGE_FORWARD);
-            prevPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 120, parentTop, true, TextureProvider.PAGE_BACKWARD);
+            nextPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 129, parentTop, false, Textures.PAGE_FORWARD);
+            prevPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 120, parentTop, true, Textures.PAGE_BACKWARD);
 
             callbackInfo.cancel();
         }

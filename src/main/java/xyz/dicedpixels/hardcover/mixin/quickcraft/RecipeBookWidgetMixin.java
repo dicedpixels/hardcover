@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.recipe.NetworkRecipeId;
 
-import xyz.dicedpixels.hardcover.util.QuickCraft;
+import xyz.dicedpixels.hardcover.feature.QuickCraft;
 
 @Mixin(RecipeBookWidget.class)
 abstract class RecipeBookWidgetMixin {
