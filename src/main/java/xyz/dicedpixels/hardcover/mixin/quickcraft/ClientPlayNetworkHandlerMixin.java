@@ -18,7 +18,7 @@ abstract class ClientPlayNetworkHandlerMixin {
         if (Configs.quickCraft.getValue()) {
             if (QuickCraft.hasKeyDown()) {
                 if (packet.getSlot() == 0 && packet.getStack() != null) {
-                    QuickCraft.scheduled = true;
+                    QuickCraft.setScheduled(true);
                 }
             }
         }

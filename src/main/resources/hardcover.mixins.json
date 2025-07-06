@@ -6,7 +6,6 @@
         "defaultRequire": 1
     },
     "client": [
-        "accessors.DrawContextInvoker",
         "accessors.KeyBindingAccessor",
         "accessors.RecipeAlternativesWidgetAccessor",
         "accessors.RecipeBookScreenAccessor",
@@ -18,10 +17,19 @@
         "alternativerecipebooklayout.RecipeBookWidgetMixin",
         "alternativerecipebutton.AlternativeButtonWidgetMixin",
         "alternativerecipebutton.RecipeAlternativesWidgetMixin",
+        "autocloserecipebook.HandledScreenMixin",
+        "autocloserecipebook.RecipeBookWidgetMixin",
         "bounce.AnimatedResultButtonMixin",
         "bounce.RecipeGroupButtonWidgetMixin",
         "centeredinventory.RecipeBookWidgetMixin",
         "circularscrolling.RecipeBookResultsMixin",
+        "creativetabs.AbstractCraftingRecipeBookWidgetMixin",
+        "creativetabs.ClientPlayNetworkHandlerMixin",
+        "creativetabs.RecipeBookWidgetMixin",
+        "creativetabs.RecipeGroupButtonWidgetMixin",
+        "invokers.ClientPlayNetworkHandlerInvoker",
+        "invokers.DrawContextInvoker",
+        "invokers.RecipeBookWidgetInvoker",
         "mousewheelscrolling.HandledScreenMixin",
         "mousewheelscrolling.RecipeBookResultsMixin",
         "quickcraft.ClientPlayerInteractionManagerMixin",
@@ -33,6 +41,8 @@
         "unlockallrecipes.ClientPlayNetworkHandlerMixin"
     ],
     "mixins": [
+        "creativetabs.HandledScreenMixin",
+        "creativetabs.ItemMixin",
         "unlockallrecipes.PlayerManagerMixin"
     ]
 }

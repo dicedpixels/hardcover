@@ -25,13 +25,13 @@ public final class BooleanConfig extends AbstractConfig<Boolean> {
     }
 
     @Override
-    public ClickableWidget createWidget(Runnable callback) {
-        return CyclingButtonWidget.onOffBuilder(Text.translatable("hardcover.gui.config.on"), Text.translatable("hardcover.gui.config.off"))
+    public ClickableWidget createWidget(Runnable runnable) {
+        return CyclingButtonWidget.onOffBuilder(Text.translatable("hardcover.gui.config.screen.on"), Text.translatable("hardcover.gui.config.screen.off"))
             .initially(getValue())
             .tooltip(value -> getTooltip())
             .build(getMessage(), (button, value) -> {
                 setValue(value);
-                callback.run();
+                runnable.run();
             });
     }
 

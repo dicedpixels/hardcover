@@ -3,54 +3,50 @@ package xyz.dicedpixels.hardcover.gui;
 import java.util.List;
 
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget.InputSlot;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.render.RenderLayer;
 
 public final class RecipeTooltipComponent implements TooltipComponent {
-    private static final int TOOLTIP_SIZE = 56;
-    private final List<InputSlot> inputSlots;
-    private final int slotIndex;
+    private final int index;
+    private final List<InputSlot> slots;
 
-    private RecipeTooltipComponent(List<InputSlot> inputSlots, int slotIndex) {
-        this.inputSlots = inputSlots;
-        this.slotIndex = slotIndex;
+    private RecipeTooltipComponent(List<InputSlot> slots, int index) {
+        this.slots = slots;
+        this.index = index;
     }
 
-    public static List<TooltipComponent> asList(List<InputSlot> inputSlots, int slotIndex) {
-        return List.of(new RecipeTooltipComponent(inputSlots, slotIndex));
+    public static List<TooltipComponent> asList(List<InputSlot> slots, int index) {
+        return List.of(new RecipeTooltipComponent(slots, index));
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, Textures.CRAFTING_GRID, x, y, TOOLTIP_SIZE, TOOLTIP_SIZE, 0xffffffff);
+    public void drawItems(TextRenderer renderer, int x, int y, int width, int height, DrawContext context) {
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, Textures.CRAFTING_GRID, x, y, 56, 56, 0xFFFFFFFF);
 
         for (var indexY = 0; indexY < 3; ++indexY) {
-            for (int indexX = 0; indexX < 3; ++indexX) {
-                var posX = x + indexX * 18;
-                var posY = y + indexY * 18;
-
-                drawSlot(posX, posY, indexX, indexY, context);
+            for (var indexX = 0; indexX < 3; ++indexX) {
+                drawSlot(x + indexX * 18, y + indexY * 18, indexX, indexY, context);
             }
         }
     }
 
     private void drawSlot(int posX, int posY, int indexX, int indexY, DrawContext context) {
-        for (var slot : inputSlots) {
+        for (var slot : slots) {
             if (!slot.stacks().isEmpty() && slot.x() % 3 == indexY && slot.y() % 3 == indexX) {
-                context.drawItem(slot.get(slotIndex), posX + 2, posY + 2);
+                context.drawItem(slot.get(index), posX + 2, posY + 2);
             }
         }
     }
 
     @Override
-    public int getHeight(TextRenderer textRenderer) {
-        return TOOLTIP_SIZE + 2;
+    public int getHeight(TextRenderer renderer) {
+        return 58;
     }
 
     @Override
-    public int getWidth(TextRenderer textRenderer) {
-        return TOOLTIP_SIZE;
+    public int getWidth(TextRenderer renderer) {
+        return 56;
     }
 }

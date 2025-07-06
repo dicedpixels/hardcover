@@ -13,7 +13,7 @@ import xyz.dicedpixels.hardcover.config.Configs;
 @Mixin(ClientRecipeBook.class)
 abstract class ClientRecipeBookMixin {
     @ModifyExpressionValue(method = "toGroupedMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/recipe/RecipeDisplayEntry;group()Ljava/util/OptionalInt;"))
-    private static OptionalInt hardcover$setGroup(OptionalInt original) {
+    private static OptionalInt hardcover$setEmptyGroup(OptionalInt original) {
         if (Configs.ungroupRecipes.getValue()) {
             return OptionalInt.empty();
         }

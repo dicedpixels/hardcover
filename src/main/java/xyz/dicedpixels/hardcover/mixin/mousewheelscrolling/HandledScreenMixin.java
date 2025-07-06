@@ -20,7 +20,6 @@ abstract class HandledScreenMixin {
         if ((Object) this instanceof RecipeBookScreen<?> recipeBookScreen) {
             if (Configs.mouseWheelScrolling.getValue()) {
                 var recipeBookWidgetAccess = (RecipeBookWidgetAccessor) ((RecipeBookScreenAccessor<?>) recipeBookScreen).hardcover$getRecipeBook();
-                var recipesArea = recipeBookWidgetAccess.hardcover$getRecipesArea();
                 var parentLeft = (recipeBookWidgetAccess.hardcover$getParentWidth() - 147) / 2 - recipeBookWidgetAccess.hardcover$getLeftOffset();
 
                 if (Configs.centeredInventory.getValue()) {
@@ -30,7 +29,7 @@ abstract class HandledScreenMixin {
                 var parentTop = (recipeBookWidgetAccess.hardcover$getParentHeight() - 166) / 2;
 
                 if (mouseX >= parentLeft && mouseY >= parentTop && mouseX < parentLeft + 147 && mouseY < parentTop + 166) {
-                    ((MouseScrollable) recipesArea).hardcover$mouseScrolled(verticalAmount);
+                    ((MouseScrollable) recipeBookWidgetAccess.hardcover$getRecipesArea()).hardcover$mouseScrolled(verticalAmount);
                 }
             }
         }

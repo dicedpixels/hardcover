@@ -13,9 +13,9 @@ import xyz.dicedpixels.hardcover.gui.Textures;
 @Mixin(AbstractFurnaceRecipeBookWidget.class)
 abstract class AbstractFurnaceRecipeBookWidgetMixin {
     @ModifyArg(method = "setBookButtonTexture", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;setTextures(Lnet/minecraft/client/gui/screen/ButtonTextures;)V"), index = 0)
-    private ButtonTextures hardcover$setCraftableButtonTextures(ButtonTextures textures) {
+    private ButtonTextures hardcover$setFurnaceFilterTexture(ButtonTextures textures) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            return Textures.FURNACE_FILTER;
+            return Textures.FURNACE_FILTER.asButtonTextures();
         }
 
         return textures;

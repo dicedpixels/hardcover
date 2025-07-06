@@ -1,0 +1,32 @@
+package xyz.dicedpixels.hardcover.mixin.autocloserecipebook;
+
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.screen.AbstractRecipeScreenHandler;
+
+import xyz.dicedpixels.hardcover.config.Configs;
+
+@Mixin(RecipeBookWidget.class)
+abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
+    @Shadow
+    @Final
+    protected T craftingScreenHandler;
+
+    @Inject(method = "initialize", at = @At("TAIL"))
+    private void hardcover$toggleRecipeBookOff(CallbackInfo callbackInfo) {
+        if (Configs.autoCloseRecipeBook.getValue()) {
+            if (craftingScreenHandler != null) {
+                setOpen(false);
+            }
+        }
+    }
+
+    @Shadow
+    protected abstract void setOpen(boolean opened);
+}

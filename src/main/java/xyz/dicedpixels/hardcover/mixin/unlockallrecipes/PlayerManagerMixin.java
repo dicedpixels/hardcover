@@ -17,7 +17,11 @@ abstract class PlayerManagerMixin {
     @Inject(method = "onPlayerConnect", at = @At("RETURN"))
     private void hardcover$unlockAllRecipes(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo callbackInfo) {
         if (Configs.unlockAllRecipes.getValue()) {
-            player.unlockRecipes(player.server.getRecipeManager().values());
+            var server = player.getServer();
+
+            if (server != null) {
+                player.unlockRecipes(server.getRecipeManager().values());
+            }
         }
     }
 }

@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 import xyz.dicedpixels.hardcover.config.Configs;
@@ -31,9 +31,9 @@ abstract class RecipeBookWidgetMixin {
     protected abstract int getTop();
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
-    private void hardcover$hideRecipeBookTextureMagnifyingGlassPixel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
+    private void hardcover$hideRecipeBookTextureMagnifyingGlassPixel(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo callbackInfo) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, getLeft() + 10, getTop() + 24, 10.0F, 10.0F, 1, 1, 256, 256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, getLeft() + 10, getTop() + 24, 10.0F, 10.0F, 1, 1, 256, 256);
         }
     }
 

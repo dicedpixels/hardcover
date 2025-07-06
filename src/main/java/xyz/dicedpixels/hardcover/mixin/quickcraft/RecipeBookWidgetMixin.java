@@ -13,7 +13,7 @@ import xyz.dicedpixels.hardcover.feature.QuickCraft;
 abstract class RecipeBookWidgetMixin {
     @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookResults;getLastClickedRecipe()Lnet/minecraft/recipe/NetworkRecipeId;"))
     private NetworkRecipeId hardcover$setClickedRecipeId(NetworkRecipeId original) {
-        QuickCraft.clickedRecipeId = original;
+        QuickCraft.setClickedRecipeId(original);
         return original;
     }
 }

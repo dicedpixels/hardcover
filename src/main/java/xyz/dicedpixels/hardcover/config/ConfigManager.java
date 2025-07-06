@@ -12,13 +12,13 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import xyz.dicedpixels.hardcover.Hardcover;
 
-public final class ConfigIO {
+public final class ConfigManager {
     private static final Gson GSON = new GsonBuilder()
         .registerTypeAdapter(BooleanConfig.class, new BooleanConfig.Serializer())
         .excludeFieldsWithModifiers(Modifier.TRANSIENT)
         .setPrettyPrinting()
         .create();
-    private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve(String.format("%s.json", Hardcover.MOD_ID));
+    private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve(Hardcover.MOD_ID + ".json");
 
     public static void readFile() {
         if (Files.exists(PATH)) {

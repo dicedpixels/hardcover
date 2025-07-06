@@ -9,16 +9,15 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.ElementListWidget.Entry;
 import net.minecraft.client.gui.widget.EmptyWidget;
 
-public final class ConfigEntry extends Entry<ConfigEntry> {
-    private final List<ClickableWidget> childWidgets = new ObjectArrayList<>();
+final class ConfigEntry extends AbstractEntry {
+    private final List<ClickableWidget> children = new ObjectArrayList<>();
     private final DirectionalLayoutWidget layout = DirectionalLayoutWidget.horizontal().spacing(5);
 
     public ConfigEntry(ClickableWidget... widgets) {
-        for (ClickableWidget widget : widgets) {
-            childWidgets.add(widget);
+        for (var widget : widgets) {
+            children.add(widget);
             layout.add(widget);
 
             if (widgets.length == 1) {
@@ -42,17 +41,17 @@ public final class ConfigEntry extends Entry<ConfigEntry> {
 
     @Override
     public List<? extends Element> children() {
-        return childWidgets;
+        return children;
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        layout.setPosition((entryWidth / 2) - (layout.getWidth() / 2), y);
-        layout.forEachChild(child -> child.render(context, mouseX, mouseY, tickDelta));
+    public void render(DrawContext context, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        layout.setPosition((width / 2) - (layout.getWidth() / 2), y);
+        layout.forEachChild(child -> child.render(context, mouseX, mouseY, deltaTicks));
     }
 
     @Override
     public List<? extends Selectable> selectableChildren() {
-        return childWidgets;
+        return children;
     }
 }

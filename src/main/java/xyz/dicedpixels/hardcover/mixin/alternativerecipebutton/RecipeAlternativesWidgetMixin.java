@@ -29,7 +29,7 @@ abstract class RecipeAlternativesWidgetMixin implements RecipeResultsProvider {
     }
 
     @Inject(method = "showAlternativesForResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeResultCollection;filter(Lnet/minecraft/client/gui/screen/recipebook/RecipeResultCollection$RecipeFilterMode;)Ljava/util/List;", ordinal = 0))
-    private void hardcover$initializeRecipeResults(RecipeResultCollection resultCollection, ContextParameterMap context, boolean filteringCraftable, int buttonX, int buttonY, int areaCenterX, int areaCenterY, float delta, CallbackInfo ci) {
+    private void hardcover$initRecipeResults(RecipeResultCollection resultCollection, ContextParameterMap context, boolean filteringCraftable, int buttonX, int buttonY, int areaCenterX, int areaCenterY, float deltaTicks, CallbackInfo ci) {
         if (Configs.alternativeRecipeButton.getValue()) {
             for (var displayEntry : resultCollection.getAllRecipes()) {
                 recipeResults.put(displayEntry.id(), displayEntry.display().result().getFirst(context));

@@ -39,15 +39,6 @@ abstract class RecipeBookResultsMixin {
         return original;
     }
 
-    @Inject(method = "hideShowPageButtons", at = @At("HEAD"), cancellable = true)
-    private void hardcover$hideShowPageButtons(CallbackInfo callbackInfo) {
-        if (Configs.circularScrolling.getValue()) {
-            nextPageButton.visible = pageCount > 1;
-            prevPageButton.visible = pageCount > 1;
-            callbackInfo.cancel();
-        }
-    }
-
     @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookResults;currentPage:I", ordinal = 0))
     private int hardcover$incrementCurrentPage(int original) {
         if (Configs.circularScrolling.getValue()) {
@@ -59,5 +50,14 @@ abstract class RecipeBookResultsMixin {
         }
 
         return original;
+    }
+
+    @Inject(method = "hideShowPageButtons", at = @At("HEAD"), cancellable = true)
+    private void hardcover$setNextPrevButtonVisibility(CallbackInfo callbackInfo) {
+        if (Configs.circularScrolling.getValue()) {
+            nextPageButton.visible = pageCount > 1;
+            prevPageButton.visible = pageCount > 1;
+            callbackInfo.cancel();
+        }
     }
 }

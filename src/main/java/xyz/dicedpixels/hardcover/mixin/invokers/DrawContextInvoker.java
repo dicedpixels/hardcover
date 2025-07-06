@@ -1,4 +1,4 @@
-package xyz.dicedpixels.hardcover.mixin.accessors;
+package xyz.dicedpixels.hardcover.mixin.invokers;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ import net.minecraft.util.Identifier;
 @Mixin(DrawContext.class)
 public interface DrawContextInvoker {
     @Invoker("drawTooltip")
-    void hardcover$invokeDrawTooltip(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture);
+    void hardcover$drawTooltip(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture, boolean focused);
 }

@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeAlternativesWidget.AlternativeButtonWidget.InputSlot;
 import net.minecraft.client.gui.tooltip.HoveredTooltipPositioner;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.NetworkRecipeId;
 import net.minecraft.text.Text;
@@ -27,16 +27,16 @@ import xyz.dicedpixels.hardcover.config.Configs;
 import xyz.dicedpixels.hardcover.contract.RecipeResultsProvider;
 import xyz.dicedpixels.hardcover.gui.RecipeTooltipComponent;
 import xyz.dicedpixels.hardcover.gui.Textures;
-import xyz.dicedpixels.hardcover.mixin.accessors.DrawContextInvoker;
 import xyz.dicedpixels.hardcover.mixin.accessors.RecipeAlternativesWidgetAccessor;
+import xyz.dicedpixels.hardcover.mixin.invokers.DrawContextInvoker;
 
 @Mixin(AlternativeButtonWidget.class)
 abstract class AlternativeButtonWidgetMixin extends ClickableWidget {
+    @Unique
+    ItemStack hardcover$resultStack = ItemStack.EMPTY;
+
     @Shadow(aliases = "field_3113")
     RecipeAlternativesWidget parent;
-
-    @Unique
-    ItemStack resultStack;
 
     @Shadow
     @Final
@@ -60,21 +60,19 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget {
     }
 
     @Inject(method = "renderWidget", at = @At("HEAD"), cancellable = true)
-    private void hardcover$renderAlternativeButton(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
+    private void hardcover$renderAlternativeButton(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo callbackInfo) {
         if (Configs.alternativeRecipeButton.getValue()) {
             var client = MinecraftClient.getInstance();
 
             if (client != null) {
                 if (isHovered()) {
                     var currentIndex = ((RecipeAlternativesWidgetAccessor) parent).hardcover$getCurrentIndexProvider().currentIndex();
-                    ((DrawContextInvoker) context).hardcover$invokeDrawTooltip(client.textRenderer, RecipeTooltipComponent.asList(inputSlots, currentIndex), mouseX, mouseY, HoveredTooltipPositioner.INSTANCE, null);
+
+                    ((DrawContextInvoker) context).hardcover$drawTooltip(client.textRenderer, RecipeTooltipComponent.asList(inputSlots, currentIndex), mouseX, mouseY, HoveredTooltipPositioner.INSTANCE, null, false);
                 }
 
-                context.drawGuiTexture(RenderLayer::getGuiTextured, hardcover$getWidgetTexture(), getX(), getY(), width, height);
-                context.getMatrices().push();
-                context.getMatrices().translate(0, 0, -35);
-                context.drawItem(resultStack, getX() + 4, getY() + 4);
-                context.getMatrices().pop();
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, hardcover$getWidgetTexture(), getX(), getY(), width, height);
+                context.drawItem(hardcover$resultStack, getX() + 4, getY() + 4);
 
                 callbackInfo.cancel();
             }
@@ -83,6 +81,6 @@ abstract class AlternativeButtonWidgetMixin extends ClickableWidget {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void hardcover$setResultStack(RecipeAlternativesWidget recipeAlternativesWidget, int x, int y, NetworkRecipeId recipeId, boolean craftable, List<InputSlot> inputSlots, CallbackInfo callbackInfo) {
-        resultStack = ((RecipeResultsProvider) parent).hardcover$getRecipeResults().get(recipeId);
+        hardcover$resultStack = ((RecipeResultsProvider) parent).hardcover$getRecipeResults().get(recipeId);
     }
 }

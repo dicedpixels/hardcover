@@ -21,10 +21,10 @@ import xyz.dicedpixels.hardcover.mixin.accessors.KeyBindingAccessor;
 public final class QuickCraft {
     private static final int CRAFTING_DELAY = 2;
     private static final KeyBinding quickCraftKey = new KeyBinding("hardcover.key.quick_craft", Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "hardcover.key.category");
-    public static NetworkRecipeId clickedRecipeId = null;
-    public static int currentDelay = CRAFTING_DELAY;
-    public static NetworkRecipeId requestedCraftRecipeId = null;
-    public static boolean scheduled = false;
+    private static NetworkRecipeId clickedRecipeId = null;
+    private static int currentDelay = CRAFTING_DELAY;
+    private static NetworkRecipeId requestedCraftRecipeId = null;
+    private static boolean scheduled = false;
 
     public static void doQuickMove(Screen currentScreen, ClientPlayerEntity player, ClientPlayerInteractionManager interactionManager) {
         if (currentScreen instanceof HandledScreen<?> handledScreen) {
@@ -57,5 +57,17 @@ public final class QuickCraft {
                 currentDelay--;
             }
         }
+    }
+
+    public static void setClickedRecipeId(NetworkRecipeId recipeId) {
+        QuickCraft.clickedRecipeId = recipeId;
+    }
+
+    public static void setRequestedCraftRecipeId(NetworkRecipeId recipeId) {
+        QuickCraft.requestedCraftRecipeId = recipeId;
+    }
+
+    public static void setScheduled(boolean scheduled) {
+        QuickCraft.scheduled = scheduled;
     }
 }

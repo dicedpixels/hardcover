@@ -13,7 +13,7 @@ import xyz.dicedpixels.hardcover.feature.QuickCraft;
 @Mixin(ClientPlayerInteractionManager.class)
 abstract class ClientPlayerInteractionManagerMixin {
     @Inject(method = "clickRecipe", at = @At("TAIL"))
-    private void hardcover$setRecipeIdOnRequestCraft(int syncId, NetworkRecipeId recipeId, boolean craftAll, CallbackInfo callbackInfo) {
-        QuickCraft.requestedCraftRecipeId = recipeId;
+    private void hardcover$setRequestedRecipeId(int syncId, NetworkRecipeId recipeId, boolean craftAll, CallbackInfo callbackInfo) {
+        QuickCraft.setRequestedCraftRecipeId(recipeId);
     }
 }

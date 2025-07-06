@@ -24,10 +24,18 @@ abstract class RecipeBookResultsMixin {
     @Shadow
     private ToggleButtonWidget prevPageButton;
 
-    @ModifyExpressionValue(method = "draw", at = @At(value = "CONSTANT", args = "intValue=1"))
-    private int hardcover$hideRecipePagesCountText(int original) {
+    @Unique
+    private ToggleButtonWidget hardcover$createToggleButtonWidget(int x, int parentTop, boolean isToggled, SelectableTexture texture) {
+        var buttonWidget = new ToggleButtonWidget(x, parentTop + 12, 7, 16, isToggled);
+
+        buttonWidget.setTextures(texture.asButtonTextures());
+        return buttonWidget;
+    }
+
+    @ModifyExpressionValue(method = "*", at = @At(value = "CONSTANT", args = "intValue=20"))
+    private int hardcover$increaseItemsPerPage(int original) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            return 1000;
+            return 25;
         }
 
         return original;
@@ -42,30 +50,22 @@ abstract class RecipeBookResultsMixin {
         return original;
     }
 
-    @ModifyExpressionValue(method = "*", at = @At(value = "CONSTANT", args = "intValue=20"))
-    private int hardcover$increaseItemsPerPage(int original) {
-        if (Configs.alternativeRecipeBookLayout.getValue()) {
-            return 25;
-        }
-
-        return original;
-    }
-
-    @Unique
-    private ToggleButtonWidget hardcover$initializeToggleButtonWidget(int x, int parentTop, boolean isToggled, SelectableTexture texture) {
-        var buttonWidget = new ToggleButtonWidget(x, parentTop + 12, 7, 16, isToggled);
-        buttonWidget.setTextures(texture.asButtonTextures());
-
-        return buttonWidget;
-    }
-
     @Inject(method = "initialize", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;<init>(IIIIZ)V", ordinal = 0), cancellable = true)
     private void hardcover$replaceNextPreviousButtons(MinecraftClient client, int parentLeft, int parentTop, CallbackInfo callbackInfo) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
-            nextPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 129, parentTop, false, Textures.PAGE_FORWARD);
-            prevPageButton = hardcover$initializeToggleButtonWidget(parentLeft + 120, parentTop, true, Textures.PAGE_BACKWARD);
+            nextPageButton = hardcover$createToggleButtonWidget(parentLeft + 129, parentTop, false, Textures.PAGE_FORWARD);
+            prevPageButton = hardcover$createToggleButtonWidget(parentLeft + 120, parentTop, true, Textures.PAGE_BACKWARD);
 
             callbackInfo.cancel();
         }
+    }
+
+    @ModifyExpressionValue(method = "draw", at = @At(value = "CONSTANT", args = "intValue=1"))
+    private int hardcover$setPageCountToHideText(int original) {
+        if (Configs.alternativeRecipeBookLayout.getValue()) {
+            return 1000;
+        }
+
+        return original;
     }
 }

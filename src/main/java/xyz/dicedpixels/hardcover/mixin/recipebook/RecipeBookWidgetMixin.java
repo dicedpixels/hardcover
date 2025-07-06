@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 
@@ -20,7 +19,7 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
     protected T craftingScreenHandler;
 
     @Inject(method = "initialize", at = @At("TAIL"))
-    private void hardcover$toggleRecipeBookOff(int parentWidth, int parentHeight, MinecraftClient client, boolean narrow, CallbackInfo callbackInfo) {
+    private void hardcover$toggleRecipeBookOff(CallbackInfo callbackInfo) {
         if (!Configs.recipeBook.getValue()) {
             if (craftingScreenHandler != null) {
                 setOpen(false);

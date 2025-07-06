@@ -13,15 +13,15 @@ public abstract class AbstractConfig<T> {
 
     public AbstractConfig(String key, T defaultValue) {
         value = defaultValue;
-        message = Text.translatable(String.format("hardcover.config.%s", toSnakeCase(key)));
-        tooltip = Tooltip.of(Text.translatable(String.format("hardcover.config.tooltip.%s", toSnakeCase(key))));
+        message = Text.translatable("hardcover.config." + toSnakeCase(key));
+        tooltip = Tooltip.of(Text.translatable("hardcover.config." + toSnakeCase(key) + ".tooltip"));
     }
 
     private static String toSnakeCase(String text) {
         return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, text);
     }
 
-    public abstract ClickableWidget createWidget(Runnable callback);
+    public abstract ClickableWidget createWidget(Runnable runnable);
 
     public ClickableWidget createWidget() {
         return createWidget(() -> {});
@@ -41,6 +41,6 @@ public abstract class AbstractConfig<T> {
 
     public void setValue(T value) {
         this.value = value;
-        ConfigIO.writeFile();
+        ConfigManager.writeFile();
     }
 }
