@@ -19,7 +19,8 @@ abstract class HandledScreenMixin {
     void hardcover$mouseScrolledInRecipeBook(double mouseX, double mouseY, double horizontalAmount, double verticalAmount, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if ((Object) this instanceof RecipeBookScreen<?> recipeBookScreen) {
             if (Configs.mouseWheelScrolling.getValue()) {
-                var recipeBookWidgetAccess = (RecipeBookWidgetAccessor) ((RecipeBookScreenAccessor<?>) recipeBookScreen).hardcover$getRecipeBook();
+                var recipeBookWidget = ((RecipeBookScreenAccessor<?>) recipeBookScreen).hardcover$getRecipeBook();
+                var recipeBookWidgetAccess = (RecipeBookWidgetAccessor) recipeBookWidget;
                 var parentLeft = (recipeBookWidgetAccess.hardcover$getParentWidth() - 147) / 2 - recipeBookWidgetAccess.hardcover$getLeftOffset();
 
                 if (Configs.centeredInventory.getValue()) {
@@ -30,6 +31,23 @@ abstract class HandledScreenMixin {
 
                 if (mouseX >= parentLeft && mouseY >= parentTop && mouseX < parentLeft + 147 && mouseY < parentTop + 166) {
                     ((MouseScrollable) recipeBookWidgetAccess.hardcover$getRecipesArea()).hardcover$mouseScrolled(verticalAmount);
+                }
+
+                if (Configs.creativeTabs.getValue()) {
+                    var xOffset = 0;
+                    var yOffset = 0;
+
+                    if (Configs.compactCreativeTabs.getValue()) {
+                        xOffset = 22;
+                        yOffset = 3;
+                    } else {
+                        xOffset = 30;
+                        yOffset = 29;
+                    }
+
+                    if (mouseX >= parentLeft - xOffset && mouseX <= parentLeft && mouseY >= parentTop + 3 && mouseY <= parentTop + 166 - yOffset) {
+                        ((MouseScrollable) recipeBookWidget).hardcover$mouseScrolled(verticalAmount);
+                    }
                 }
             }
         }

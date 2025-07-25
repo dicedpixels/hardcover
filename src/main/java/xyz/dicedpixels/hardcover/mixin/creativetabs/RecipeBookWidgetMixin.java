@@ -28,6 +28,8 @@ import net.minecraft.screen.AbstractCraftingScreenHandler;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 
 import xyz.dicedpixels.hardcover.config.Configs;
+import xyz.dicedpixels.hardcover.contract.MouseScrollable;
+import xyz.dicedpixels.hardcover.contract.TabPartitionProvider;
 import xyz.dicedpixels.hardcover.contract.TooltipProvider;
 import xyz.dicedpixels.hardcover.feature.CreativeTabs;
 import xyz.dicedpixels.hardcover.feature.CreativeTabs.CreativeTabsCategory;
@@ -35,31 +37,37 @@ import xyz.dicedpixels.hardcover.gui.Textures;
 import xyz.dicedpixels.hardcover.gui.Textures.SelectableTexture;
 
 @Mixin(RecipeBookWidget.class)
-abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
+abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> implements MouseScrollable, TabPartitionProvider {
     @Shadow
     private @Nullable RecipeGroupButtonWidget currentTab;
+
     @Unique
     private int hardcover$currentTabPartition = 0;
+
     @Unique
     private ToggleButtonWidget hardcover$downButton;
+
     @Unique
     private List<List<RecipeGroupButtonWidget>> hardcover$tabPartitions = new ArrayList<>();
+
     @Unique
     private ToggleButtonWidget hardcover$upButton;
+
     @Shadow
     private int leftOffset;
+
     @Shadow
     private int parentHeight;
+
     @Shadow
     private int parentWidth;
+
     @Shadow
     private ClientRecipeBook recipeBook;
+
     @Shadow
     @Final
     private List<RecipeGroupButtonWidget> tabButtons;
-
-    @Shadow
-    protected abstract int getLeft();
 
     @Unique
     private ToggleButtonWidget hardcover$createButton(int x, int y, int width, int height, boolean toggled, SelectableTexture texture) {
@@ -85,17 +93,55 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
     @Unique
     private int hardcover$getDownButtonY(int y) {
         var tabHeight = 0;
-        var yOffset = 0;
+        var partitionCount = hardcover$tabPartitions.get(hardcover$currentTabPartition).size();
 
         if (Configs.compactCreativeTabs.getValue()) {
             tabHeight = 22;
-            yOffset = 5;
         } else {
-            tabHeight = 27;
-            yOffset = 1;
+            tabHeight = 26;
         }
 
-        return y + (tabHeight * hardcover$tabPartitions.get(hardcover$currentTabPartition).size()) + yOffset;
+        return y + (tabHeight * partitionCount) + partitionCount + 1;
+    }
+
+    @Override
+    public void hardcover$incrementTabPartition() {
+        var refresh = false;
+
+        if (hardcover$currentTabPartition < hardcover$tabPartitions.size() - 1) {
+            hardcover$currentTabPartition++;
+            refresh = true;
+        } else {
+            if (Configs.circularScrolling.getValue()) {
+                hardcover$currentTabPartition = 0;
+                refresh = true;
+            }
+        }
+
+        if (refresh) {
+            hardcover$resetCurrentTab();
+            refreshTabButtons(isFilteringCraftable());
+        }
+    }
+
+    @Override
+    public void hardcover$decrementTabPartition() {
+        var refresh = false;
+
+        if (hardcover$currentTabPartition > 0) {
+            hardcover$currentTabPartition--;
+            refresh = true;
+        } else {
+            if (Configs.circularScrolling.getValue()) {
+                hardcover$currentTabPartition = hardcover$tabPartitions.size() - 1;
+                refresh = true;
+            }
+        }
+
+        if (refresh) {
+            hardcover$resetCurrentTab();
+            refreshTabButtons(isFilteringCraftable());
+        }
     }
 
     @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;mouseClicked(DDI)Z"), cancellable = true)
@@ -103,21 +149,13 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue()) {
                 if (hardcover$downButton.mouseClicked(mouseX, mouseY, button)) {
-                    if (hardcover$currentTabPartition > 0) {
-                        hardcover$currentTabPartition--;
-                        hardcover$resetCurrentTab();
-                        refreshTabButtons(isFilteringCraftable());
-                        callbackInfoReturnable.setReturnValue(true);
-                    }
+                    hardcover$decrementTabPartition();
+                    callbackInfoReturnable.setReturnValue(true);
                 }
 
                 if (hardcover$upButton.mouseClicked(mouseX, mouseY, button)) {
-                    if (hardcover$currentTabPartition < hardcover$tabPartitions.size() - 1) {
-                        hardcover$currentTabPartition++;
-                        hardcover$resetCurrentTab();
-                        refreshTabButtons(isFilteringCraftable());
-                        callbackInfoReturnable.setReturnValue(true);
-                    }
+                    hardcover$incrementTabPartition();
+                    callbackInfoReturnable.setReturnValue(true);
                 }
             }
         }
@@ -130,7 +168,7 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> {
                 var initialX = (parentWidth - 147) / 2 - leftOffset - 30;
 
                 if (Configs.centeredInventory.getValue()) {
-                    initialX = initialX - (147 / 2) - 4;
+                    initialX = initialX - 73 - 4;
                 }
 
                 var initialY = (parentHeight - 166) / 2 + 3;
