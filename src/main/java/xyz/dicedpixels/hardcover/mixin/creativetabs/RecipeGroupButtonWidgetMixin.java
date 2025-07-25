@@ -43,8 +43,8 @@ abstract class RecipeGroupButtonWidgetMixin extends ToggleButtonWidget implement
     private static void hardcover$setTextureSize(Args args) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue() && Configs.compactCreativeTabs.getValue()) {
-                args.set(2, 27);
-                args.set(3, 22);
+                args.set(2, 27); // width
+                args.set(3, 22); // height
             }
         }
     }
@@ -66,8 +66,8 @@ abstract class RecipeGroupButtonWidgetMixin extends ToggleButtonWidget implement
     private void hardcover$modifyItemIconPositions(Args args) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue() && Configs.compactCreativeTabs.getValue()) {
-                args.set(1, getX() + 4);
-                args.set(2, getY() + 3);
+                args.set(1, getX() + 4); // x
+                args.set(2, getY() + 3); // y
             }
         }
     }
