@@ -45,8 +45,8 @@ final class ConfigEntry extends AbstractEntry {
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-        layout.setPosition((width / 2) - (layout.getWidth() / 2), y);
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        layout.setPosition((getWidth() / 2) - (layout.getWidth() / 2), getY());
         layout.forEachChild(child -> child.render(context, mouseX, mouseY, deltaTicks));
     }
 

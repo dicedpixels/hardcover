@@ -34,8 +34,8 @@
     "hardcover.gui.config.screen.done": "Done",
     "hardcover.gui.config.screen.off": "OFF",
     "hardcover.gui.config.screen.on": "ON",
-    "hardcover.key.category": "Hardcover",
     "hardcover.key.quick_craft": "Quick Craft",
     "hardcover.resourcepacks.dark_mode.default_dark_mode": "Dark mode for Hardcover",
-    "hardcover.resourcepacks.dark_mode.vanilla_tweaks": "Dark mode for Hardcover"
+    "hardcover.resourcepacks.dark_mode.vanilla_tweaks": "Dark mode for Hardcover",
+    "key.category.hardcover.keybinds": "Hardcover"
 }

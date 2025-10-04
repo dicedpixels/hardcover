@@ -12,15 +12,18 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.InputUtil.Type;
 import net.minecraft.recipe.NetworkRecipeId;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.util.Identifier;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
+import xyz.dicedpixels.hardcover.Hardcover;
 import xyz.dicedpixels.hardcover.mixin.accessors.KeyBindingAccessor;
 
 public final class QuickCraft {
     private static final int CRAFTING_DELAY = 2;
-    private static final KeyBinding quickCraftKey = new KeyBinding("hardcover.key.quick_craft", Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "hardcover.key.category");
+    private static final KeyBinding.Category KEY_CATEGORY = KeyBinding.Category.create(Identifier.of(Hardcover.MOD_ID, "keybinds"));
+    private static final KeyBinding quickCraftKey = new KeyBinding("hardcover.key.quick_craft", Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, KEY_CATEGORY);
     private static NetworkRecipeId clickedRecipeId = null;
     private static int currentDelay = CRAFTING_DELAY;
     private static NetworkRecipeId requestedCraftRecipeId = null;
@@ -39,7 +42,7 @@ public final class QuickCraft {
     }
 
     public static boolean hasKeyDown() {
-        return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), ((KeyBindingAccessor) quickCraftKey).hardcover$getBoundKey().getCode());
+        return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), ((KeyBindingAccessor) quickCraftKey).hardcover$getBoundKey().getCode());
     }
 
     public static void init() {

@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget.Tab;
@@ -144,16 +145,16 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
         }
     }
 
-    @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;mouseClicked(DDI)Z"), cancellable = true)
-    private void hardcover$onUpDownButtonsClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+    @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), cancellable = true)
+    private void hardcover$onUpDownButtonsClicked(Click click, boolean doubled, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue()) {
-                if (hardcover$downButton.mouseClicked(mouseX, mouseY, button)) {
+                if (hardcover$downButton.mouseClicked(click, doubled)) {
                     hardcover$decrementTabPartition();
                     callbackInfoReturnable.setReturnValue(true);
                 }
 
-                if (hardcover$upButton.mouseClicked(mouseX, mouseY, button)) {
+                if (hardcover$upButton.mouseClicked(click, doubled)) {
                     hardcover$incrementTabPartition();
                     callbackInfoReturnable.setReturnValue(true);
                 }
