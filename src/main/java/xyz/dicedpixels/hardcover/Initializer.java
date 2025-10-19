@@ -2,6 +2,8 @@ package xyz.dicedpixels.hardcover;
 
 import net.fabricmc.api.ModInitializer;
 
+import org.spongepowered.asm.mixin.MixinEnvironment;
+
 import xyz.dicedpixels.hardcover.config.ConfigManager;
 import xyz.dicedpixels.hardcover.feature.QuickCraft;
 import xyz.dicedpixels.hardcover.feature.RecipeBook;

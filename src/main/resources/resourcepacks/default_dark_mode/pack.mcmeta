@@ -3,10 +3,7 @@
         "description": {
             "translate": "hardcover.resourcepacks.dark_mode.default_dark_mode"
         },
-        "pack_format": 64,
-        "supported_formats": [
-            63,
-            64
-        ]
+        "min_format": 69,
+        "max_format": 69
     }
 }
