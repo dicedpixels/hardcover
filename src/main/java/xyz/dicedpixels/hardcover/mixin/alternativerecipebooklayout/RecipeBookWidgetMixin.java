@@ -64,7 +64,7 @@ abstract class RecipeBookWidgetMixin {
         }
     }
 
-    @ModifyArgs(method = "reset", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;<init>(IIIIZ)V"))
+    @ModifyArgs(method = "reset", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/CyclingButtonWidget$Builder;build(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/CyclingButtonWidget$UpdateCallback;)Lnet/minecraft/client/gui/widget/CyclingButtonWidget;"))
     private void hardcover$modifyToggleCraftableButtonDimensions(Args args, @Share("left") LocalIntRef refLeft) {
         if (Configs.alternativeRecipeBookLayout.getValue()) {
             args.set(0, refLeft.get() + 102); // args[0] = x

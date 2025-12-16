@@ -10,7 +10,7 @@ import xyz.dicedpixels.hardcover.config.Configs;
 
 @Mixin(RecipeGroupButtonWidget.class)
 abstract class RecipeGroupButtonWidgetMixin {
-    @ModifyExpressionValue(method = "renderWidget", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 1))
+    @ModifyExpressionValue(method = "drawIcon", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 1))
     private float hardcover$setBounceForRecipeGroupButtonEnd(float original) {
         if (Configs.bounce.getValue()) {
             return original;
@@ -19,7 +19,7 @@ abstract class RecipeGroupButtonWidgetMixin {
         return 1000.0f;
     }
 
-    @ModifyExpressionValue(method = "renderWidget", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 0))
+    @ModifyExpressionValue(method = "drawIcon", at = @At(value = "CONSTANT", args = "floatValue=0.0f", ordinal = 0))
     private float hardcover$setBounceForRecipeGroupButtonStart(float original) {
         if (Configs.bounce.getValue()) {
             return original;

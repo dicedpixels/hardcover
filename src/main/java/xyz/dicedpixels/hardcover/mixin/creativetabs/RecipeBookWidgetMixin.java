@@ -22,11 +22,12 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget.Tab;
 import net.minecraft.client.gui.screen.recipebook.RecipeGroupButtonWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
-import net.minecraft.client.gui.widget.ToggleButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.recipe.book.RecipeBookGroup;
 import net.minecraft.screen.AbstractCraftingScreenHandler;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
+import net.minecraft.text.Text;
 
 import xyz.dicedpixels.hardcover.config.Configs;
 import xyz.dicedpixels.hardcover.contract.MouseScrollable;
@@ -46,13 +47,13 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
     private int hardcover$currentTabPartition = 0;
 
     @Unique
-    private ToggleButtonWidget hardcover$downButton;
+    private TexturedButtonWidget hardcover$downButton;
 
     @Unique
     private List<List<RecipeGroupButtonWidget>> hardcover$tabPartitions = new ArrayList<>();
 
     @Unique
-    private ToggleButtonWidget hardcover$upButton;
+    private TexturedButtonWidget hardcover$upButton;
 
     @Shadow
     private int leftOffset;
@@ -71,10 +72,10 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
     private List<RecipeGroupButtonWidget> tabButtons;
 
     @Unique
-    private ToggleButtonWidget hardcover$createButton(int x, int y, int width, int height, boolean toggled, SelectableTexture texture) {
-        var button = new ToggleButtonWidget(x, y, width, height, toggled);
+    private TexturedButtonWidget hardcover$createButton(int x, int y, int width, int height, SelectableTexture texture) {
+        var button = new TexturedButtonWidget(width, height, texture.asButtonTextures(), buttonWidget -> {}, Text.empty());
 
-        button.setTextures(texture.asButtonTextures());
+        button.setPosition(x, y);
         return button;
     }
 
@@ -145,7 +146,7 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
         }
     }
 
-    @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), cancellable = true)
+    @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeGroupButtonWidget;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), cancellable = true)
     private void hardcover$onUpDownButtonsClicked(Click click, boolean doubled, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue()) {
@@ -183,7 +184,7 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
         }
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/CyclingButtonWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
     private void hardcover$renderUpDownButtons(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo callbackInfo) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue()) {
@@ -198,11 +199,11 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
     @Unique
     private void hardcover$resetCurrentTab() {
         for (var tab : tabButtons) {
-            tab.setToggled(false);
+            tab.unfocus();
         }
 
         currentTab = hardcover$tabPartitions.get(hardcover$currentTabPartition).getFirst();
-        currentTab.setToggled(true);
+        currentTab.focus();
         refreshResults(true, isFilteringCraftable());
     }
 
@@ -236,7 +237,7 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
                     tabButton.setPosition(x, y + 27 * tabIndex++);
                 }
 
-                ((TooltipProvider) tabButton).hardcover$setTooltip(creativeTabsCategory.getName());
+                ((TooltipProvider) tabButton).hardcover$setTooltip(creativeTabsCategory.getName().copy());
                 tabButton.checkForNewRecipes(recipeBook, filteringCraftable);
             }
         }
@@ -245,11 +246,11 @@ abstract class RecipeBookWidgetMixin<T extends AbstractRecipeScreenHandler> impl
     @Unique
     private void hardcover$setUpUpDownButtons(int x, int y) {
         if (Configs.compactCreativeTabs.getValue()) {
-            hardcover$downButton = hardcover$createButton(x + 12, 0, 16, 7, true, Textures.TABS_DOWN_COMPACT); // 162 = 27 * 6
-            hardcover$upButton = hardcover$createButton(x + 12, y - 9, 16, 7, false, Textures.TABS_UP_COMPACT);
+            hardcover$downButton = hardcover$createButton(x + 12, 0, 16, 7, Textures.TABS_DOWN_COMPACT); // 162 = 27 * 6
+            hardcover$upButton = hardcover$createButton(x + 12, y - 9, 16, 7, Textures.TABS_UP_COMPACT);
         } else {
-            hardcover$downButton = hardcover$createButton(x + 7, 0, 17, 12, true, Textures.TABS_DOWN); // 135 = 27 * 5
-            hardcover$upButton = hardcover$createButton(x + 7, y - 14, 17, 12, false, Textures.TABS_UP);
+            hardcover$downButton = hardcover$createButton(x + 7, 0, 17, 12, Textures.TABS_DOWN); // 135 = 27 * 5
+            hardcover$upButton = hardcover$createButton(x + 7, y - 14, 17, 12, Textures.TABS_UP);
         }
 
         hardcover$downButton.setY(hardcover$getDownButtonY(y));

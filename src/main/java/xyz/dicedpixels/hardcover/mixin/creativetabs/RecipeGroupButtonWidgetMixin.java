@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,10 +19,11 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.recipebook.RecipeGroupButtonWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
-import net.minecraft.client.gui.widget.ToggleButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.recipe.book.RecipeBookGroup;
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.PlainTextContent;
 import net.minecraft.util.Formatting;
 
 import xyz.dicedpixels.hardcover.config.Configs;
@@ -31,22 +33,23 @@ import xyz.dicedpixels.hardcover.feature.CreativeTabs.CreativeTabsCategory;
 import xyz.dicedpixels.hardcover.gui.Textures;
 
 @Mixin(RecipeGroupButtonWidget.class)
-abstract class RecipeGroupButtonWidgetMixin extends ToggleButtonWidget implements TooltipProvider {
+abstract class RecipeGroupButtonWidgetMixin extends TexturedButtonWidget implements TooltipProvider {
     @Unique
-    private Text hardcover$tooltip = Text.empty();
+    private MutableText hardcover$tooltip = MutableText.of(PlainTextContent.EMPTY);
 
-    public RecipeGroupButtonWidgetMixin(int x, int y, int width, int height, boolean toggled) {
-        super(x, y, width, height, toggled);
+    public RecipeGroupButtonWidgetMixin(int x, int y, int width, int height, ButtonTextures textures, PressAction pressAction) {
+        super(x, y, width, height, textures, pressAction);
     }
 
-    @ModifyArgs(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ToggleButtonWidget;<init>(IIIIZ)V"))
-    private static void hardcover$setTextureSize(Args args) {
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TexturedButtonWidget;<init>(IIIILnet/minecraft/client/gui/screen/ButtonTextures;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V"), index = 4)
+    private static ButtonTextures hardcover$setTabTexture(ButtonTextures original) {
         if (CreativeTabs.isCraftingScreen()) {
             if (Configs.creativeTabs.getValue() && Configs.compactCreativeTabs.getValue()) {
-                args.set(2, 27); // width
-                args.set(3, 22); // height
+                return Textures.TAB_COMPACT.asButtonTextures();
             }
         }
+
+        return original;
     }
 
     @WrapOperation(method = { "checkForNewRecipes", "hasKnownRecipes" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/recipebook/ClientRecipeBook;getResultsForCategory(Lnet/minecraft/recipe/book/RecipeBookGroup;)Ljava/util/List;"))
@@ -72,7 +75,17 @@ abstract class RecipeGroupButtonWidgetMixin extends ToggleButtonWidget implement
         }
     }
 
-    @Inject(method = "renderWidget", at = @At("TAIL"))
+    @ModifyArgs(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TexturedButtonWidget;<init>(IIIILnet/minecraft/client/gui/screen/ButtonTextures;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V"))
+    private static void hardcover$setTextureSize(Args args) {
+        if (CreativeTabs.isCraftingScreen()) {
+            if (Configs.creativeTabs.getValue() && Configs.compactCreativeTabs.getValue()) {
+                args.set(2, 27); // width
+                args.set(3, 22); // height
+            }
+        }
+    }
+
+    @Inject(method = "drawIcon", at = @At("TAIL"))
     private void hardcover$renderTooltipState(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo callbackInfo) {
         if (Configs.creativeTabs.getValue()) {
             var adjusted = false;
@@ -89,19 +102,8 @@ abstract class RecipeGroupButtonWidgetMixin extends ToggleButtonWidget implement
         }
     }
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeGroupButtonWidget;setTextures(Lnet/minecraft/client/gui/screen/ButtonTextures;)V"))
-    private ButtonTextures hardcover$setTabTexture(ButtonTextures original) {
-        if (CreativeTabs.isCraftingScreen()) {
-            if (Configs.creativeTabs.getValue() && Configs.compactCreativeTabs.getValue()) {
-                return Textures.TAB_COMPACT.asButtonTextures();
-            }
-        }
-
-        return original;
-    }
-
     @Override
-    public void hardcover$setTooltip(Text text) {
+    public void hardcover$setTooltip(@NonNull MutableText text) {
         hardcover$tooltip = text.copy().styled(style -> style.withFormatting(Formatting.BLUE));
     }
 }

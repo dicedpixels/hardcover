@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
-import net.minecraft.client.gui.widget.ToggleButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 
 import xyz.dicedpixels.hardcover.config.Configs;
 
@@ -18,13 +18,13 @@ abstract class RecipeBookResultsMixin {
     private int currentPage;
 
     @Shadow
-    private ToggleButtonWidget nextPageButton;
+    private TexturedButtonWidget nextPageButton;
 
     @Shadow
     private int pageCount;
 
     @Shadow
-    private ToggleButtonWidget prevPageButton;
+    private TexturedButtonWidget prevPageButton;
 
     @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookResults;currentPage:I", ordinal = 2))
     private int hardcover$decrementCurrentPage(int original) {

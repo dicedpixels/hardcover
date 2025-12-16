@@ -1,7 +1,7 @@
 package xyz.dicedpixels.hardcover.contract;
 
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
 
 public interface TooltipProvider {
-    void hardcover$setTooltip(Text text);
+    void hardcover$setTooltip(MutableText text);
 }
